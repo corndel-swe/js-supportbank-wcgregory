@@ -29,8 +29,8 @@ export class Bill {
 	}
 
 	printBill() {
+    // print current bill including timestamp
 		const transactionTime = new Date()
-		// console.log(`£${amount}: Bill at ${transactionTime.toDateString()}`)
 		console.log(`${transactionTime.toDateString()} - Total Bill ${this.#currencySymbol}${this.#total}`)
 	}
 }

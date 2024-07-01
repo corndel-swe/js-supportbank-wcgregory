@@ -7,16 +7,6 @@ export class Currency {
 	#currencySymbol
   constructor (currency) {
 		this.#currency = String(currency).toUpperCase()
-		if (this.#currency === 'GBP' || this.#currency === 'POUNDS' || this.#currency === '£') {
-      this.#currencyCode = 'GBP'
-			this.#currencySymbol = '£'
-		} else if (this.#currency === 'USD' || this.#currency === 'DOLLARS' || this.#currency === '$') {
-      this.#currencyCode = 'USD'
-			this.#currencySymbol = '$'
-    } else {
-      this.#currencyCode = null
-      this.#currencySymbol = null
-    }
 	}
 
 	totalAmount(amount) {
@@ -35,30 +25,53 @@ export class Currency {
     // ISO 4217 three-letter code
 		this.#currencyCode = code
 	}
-	exchange(amount, newCurrency) {
-		// TODO
+
+  getCurrencySymbol(toCurrency) {
+		if (toCurrency === 'USD') {
+      return currencyConvertor.symbolUSD
+    } else if (toCurrency === 'AUD') {
+      return currencyConvertor.symbolAUD
+    } else if (toCurrency === 'INR') {
+      return currencyConvertor.symbolINR
+    } else return -1
 	}
 
-  getExchangeRate(fromCurrency, toCurrency) {
-		// TODO
+  #getExchangeRate(toCurrency) {
+		// TODO - Not Implemented
 	}
 
-	printCurrency() {
-		console.log(`Currency Symbol: ${this.#currencySymbol}Amount: ${this.#amount} 
-                - ${this.#currencySymbol}${this.#amount}`)
+  exchange(amount, newCurrency) {
+    let value = amount
+    const rate = this.#getExchangeRate(newCurrency)
+    const symbol = this.getCurrencySymbol(newCurrency)
+    if (!rate || rate === -1) {
+      console.log("Unsupported exchange rate!")
+      // return -1
+    } else {
+      value *= rate
+      console.log(`${this.#currencyCode} to ${newCurrency} - Exchange Rate: ${rate} - Amount: ${symbol}${value}`)
+    }
 	}
+
+	displayCurrency() {
+    let thisCurrency = this.#currencyCode
+		console.log(`This currency: ${thisCurrency} Amount: ${this.#amount}`)
+    console.log(`${this.#currencySymbol}${this.#amount}`)
+	}
+
 }
 
 export class PoundSterling extends Currency {
-  #currencyCode
-  #currencySymbol
+  // #currencyCode
+  // currencySymbol
   constructor() {
     super('PoundSterling')
-    this.#currencyCode = 'GBP'
-    this.#currencySymbol = '£'
+    this.currencyCode = 'GBP'
+    this.currencySymbol = currencyConvertor.symbolGBP
+    this.amount = 0
   }
 
-  getExchangeRate(toCurrency) {
+  #getExchangeRate(toCurrency) {
 		if (toCurrency === 'USD') {
       return currencyConvertor.exchangeGBPToUSD
     } else if (toCurrency === 'AUD') {
@@ -67,4 +80,128 @@ export class PoundSterling extends Currency {
       return currencyConvertor.exchangeGBPToINR
     } else return -1
 	}
+
+  exchange(amount, newCurrency) {
+    let value = amount
+    const rate = this.#getExchangeRate(newCurrency)
+    const symbol = this.getCurrencySymbol(newCurrency)
+    if (!rate || rate === -1) {
+      console.log("Unsupported exchange rate!")
+      // return -1
+    } else {
+      value *= rate
+      console.log(`${this.currencyCode} to ${newCurrency} - Exchange Rate: ${rate} - Amount: ${symbol}${value}`)
+    }
+	}
+
+  displayCurrency() {
+		console.log(`This currency: ${this.currencyCode} Amount: ${this.amount}`)
+    console.log(`${this.currencySymbol}${this.amount}`)
+	}
 }
+
+export class USDollars extends Currency {
+  #currencyCode
+  #currencySymbol
+  constructor() {
+    super('USDollars')
+    this.#currencyCode = 'USD'
+    this.#currencySymbol = currencyConvertor.symbolUSD
+  }
+
+  #getExchangeRate(toCurrency) {
+		if (toCurrency === 'GBP') {
+      return currencyConvertor.exchangeUSDToGBP
+    } else if (toCurrency === 'AUD') {
+      return currencyConvertor.exchangeUSDToAUD
+    } else if (toCurrency === 'INR') {
+      return currencyConvertor.exchangeUSDToINR
+    } else return -1
+	}
+
+  exchange(amount, newCurrency) {
+    let value = amount
+    const rate = this.#getExchangeRate(newCurrency)
+    const symbol = this.getCurrencySymbol(newCurrency)
+    if (!rate || rate === -1) {
+      console.log("Unsupported exchange rate!")
+      // return -1
+    } else {
+      value *= rate
+      console.log(`${this.#currencyCode} to ${newCurrency} - Exchange Rate: ${rate} - Amount: ${symbol}${value}`)
+    }
+	}
+}
+
+export class AUDollars extends Currency {
+  #currencyCode
+  #currencySymbol
+  constructor() {
+    super('AUDollars')
+    this.#currencyCode = 'AUD'
+    this.#currencySymbol = currencyConvertor.symbolAUD
+  }
+
+  #getExchangeRate(toCurrency) {
+		if (toCurrency === 'USD') {
+      return currencyConvertor.exchangeAUDToUSD
+    } else if (toCurrency === 'AUD') {
+      return currencyConvertor.exchangeAUDToGBP
+    } else if (toCurrency === 'INR') {
+      return currencyConvertor.exchangeAUDToINR
+    } else return -1
+	}
+
+  exchange(amount, newCurrency) {
+    let value = amount
+    const rate = this.#getExchangeRate(newCurrency)
+    const symbol = this.getCurrencySymbol(newCurrency)
+    if (!rate || rate === -1) {
+      console.log("Unsupported exchange rate!")
+      // return -1
+    } else {
+      value *= rate
+      console.log(`${this.#currencyCode} to ${newCurrency} - Exchange Rate: ${rate} - Amount: ${symbol}${value}`)
+    }
+	}
+}
+
+export class IndianRupees extends Currency {
+  #currencyCode
+  #currencySymbol
+  constructor() {
+    super('PoundSterling')
+    this.#currencyCode = 'INR'
+    this.#currencySymbol = currencyConvertor.symbolINR
+  }
+
+  #getExchangeRate(toCurrency) {
+		if (toCurrency === 'USD') {
+      return currencyConvertor.exchangeINRToUSD
+    } else if (toCurrency === 'AUD') {
+      return currencyConvertor.exchangeINRToAUD
+    } else if (toCurrency === 'INR') {
+      return currencyConvertor.exchangeINRToGBP
+    } else return -1
+	}
+
+  exchange(amount, newCurrency) {
+    let value = amount
+    const rate = this.#getExchangeRate(newCurrency)
+    const symbol = this.getCurrencySymbol(newCurrency)
+    if (!rate || rate === -1) {
+      console.log("Unsupported exchange rate!")
+      // return -1
+    } else {
+      value *= rate
+      console.log(`${this.#currencyCode} to ${newCurrency} - Exchange Rate: ${rate} - Amount: ${symbol}${value}`)
+    }
+	}
+}
+
+const myGBP = new PoundSterling()
+const myUSD = new USDollars()
+
+myGBP.displayCurrency()
+myUSD.displayCurrency()
+
