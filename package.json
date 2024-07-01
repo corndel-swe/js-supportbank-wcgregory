@@ -1,6 +1,7 @@
 {
   "name": "js-supportbank-wcgregory",
   "version": "1.0.0",
+  "type": "module",
   "description": "<p align=\"center\">   <img width=\"200px\" src=\"docs/supportbank-logo.png\" alt=\"Supportbank Logo\" /> </p>",
   "main": "index.js",
   "directories": {
