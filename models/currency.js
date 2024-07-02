@@ -30,13 +30,13 @@ export class Currency {
 	}
 
   getCurrencySymbol(currency) {
-    if (currency === 'GBP') {
+    if (currency.toUpperCase() === 'GBP') {
       return currencyConvertor.symbolGBP
-    } else if (currency === 'USD') {
+    } else if (currency.toUpperCase() === 'USD') {
       return currencyConvertor.symbolUSD
-    } else if (currency === 'AUD') {
+    } else if (currency.toUpperCase() === 'AUD') {
       return currencyConvertor.symbolAUD
-    } else if (currency === 'INR') {
+    } else if (currency.toUpperCase() === 'INR') {
       return currencyConvertor.symbolINR
     } else return ''
 	}
@@ -77,11 +77,11 @@ export class PoundSterling extends Currency {
   }
 
   #getExchangeRate(toCurrency) {
-		if (toCurrency === 'USD') {
+		if (toCurrency.toUpperCase() === 'USD') {
       return currencyConvertor.exchangeGBPToUSD
-    } else if (toCurrency === 'AUD') {
+    } else if (toCurrency.toUpperCase() === 'AUD') {
       return currencyConvertor.exchangeGBPToAUD
-    } else if (toCurrency === 'INR') {
+    } else if (toCurrency.toUpperCase() === 'INR') {
       return currencyConvertor.exchangeGBPToINR
     } else return -1
 	}
@@ -115,11 +115,11 @@ export class USDollars extends Currency {
   }
 
   #getExchangeRate(toCurrency) {
-		if (toCurrency === 'GBP') {
+		if (toCurrency.toUpperCase() === 'GBP') {
       return currencyConvertor.exchangeUSDToGBP
-    } else if (toCurrency === 'AUD') {
+    } else if (toCurrency.toUpperCase() === 'AUD') {
       return currencyConvertor.exchangeUSDToAUD
-    } else if (toCurrency === 'INR') {
+    } else if (toCurrency.toUpperCase() === 'INR') {
       return currencyConvertor.exchangeUSDToINR
     } else return -1
 	}
@@ -151,11 +151,11 @@ export class AUDollars extends Currency {
   }
 
   #getExchangeRate(toCurrency) {
-		if (toCurrency === 'USD') {
+		if (toCurrency.toUpperCase() === 'USD') {
       return currencyConvertor.exchangeAUDToUSD
-    } else if (toCurrency === 'AUD') {
+    } else if (toCurrency.toUpperCase() === 'AUD') {
       return currencyConvertor.exchangeAUDToGBP
-    } else if (toCurrency === 'INR') {
+    } else if (toCurrency.toUpperCase() === 'INR') {
       return currencyConvertor.exchangeAUDToINR
     } else return -1
 	}
@@ -188,11 +188,11 @@ export class IndianRupees extends Currency {
   }
 
   #getExchangeRate(toCurrency) {
-		if (toCurrency === 'USD') {
+		if (toCurrency.toUpperCase() === 'USD') {
       return currencyConvertor.exchangeINRToUSD
-    } else if (toCurrency === 'AUD') {
+    } else if (toCurrency.toUpperCase() === 'AUD') {
       return currencyConvertor.exchangeINRToAUD
-    } else if (toCurrency === 'GBP') {
+    } else if (toCurrency.toUpperCase() === 'GBP') {
       return currencyConvertor.exchangeINRToGBP
     } else return -1
 	}
@@ -216,16 +216,3 @@ export class IndianRupees extends Currency {
 	}
   
 }
-
-/*
-const myGBP = new PoundSterling()
-const myUSD = new USDollars()
-const myINR = new IndianRupees()
-
-myGBP.displayCurrency()
-myUSD.displayCurrency()
-myINR.displayCurrency()
-
-myGBP.exchange(100, 'USD')
-myINR.exchange(30000, 'USD')
-*/
