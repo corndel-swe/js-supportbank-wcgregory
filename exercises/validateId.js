@@ -25,6 +25,7 @@ export function validateId(id) {
   }
 
   // The id should be all lowercase:
+  // if (id !== id.toLowerCase()) {
   if (id.match(/[A-Z]/)) {
     // TODO: throw an error on this condition
     throw new Error("ID should be all lowercase")
