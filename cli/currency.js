@@ -1,15 +1,33 @@
 import { Command } from 'commander'
-import { Bill } from '../models/billing.js'
+import * as foreignExchange from '../models/currency.js'
 
-const billController = new Command('bill')
+const currencyExchangeController = new Command('currency')
 
-billController
-  .command('split <amount> <people>')
-  .description('Split bill by number of people and display to the console')
-  .action((amount, people) => {
-    const splitMyBill = new Bill(amount, 'GBP')
-    splitMyBill.printBill()
-    splitMyBill.splitBill(people)
+currencyExchangeController
+  .command('convert <amount> <fromCurrency> <toCurrency>')
+  .description('Converts currency to another currency based on exchange rate')
+  .action((amount, fromCurrency, toCurrency) => {
+    let currency = null
+    const supportedCurrency = ['GBP', 'USD', 'AUD', 'INR']
+    if (
+      !supportedCurrency.includes(String(fromCurrency).toUpperCase()) ||
+      !supportedCurrency.includes(String(toCurrency).toUpperCase())
+    ) {
+      throw new Error("Unsupported Currency")
+    }
+
+    if (fromCurrency === 'USD') {
+      currency = new foreignExchange.USDollars()
+    } else if (fromCurrency === 'GBP') {
+      currency = new foreignExchange.PoundSterling()
+    } else if (fromCurrency === 'AUD') {
+      currency = new foreignExchange.AUDollars()
+    } else {
+      currency = new foreignExchange.IndianRupees()
+    } 
+	
+    currency.exchange(amount, toCurrency)
+
   })
 
-export default billController
+export default currencyExchangeController

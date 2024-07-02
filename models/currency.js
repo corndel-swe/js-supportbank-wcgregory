@@ -30,11 +30,13 @@ export class Currency {
 	}
 
   getCurrencySymbol(currency) {
-		if (currency === 'USD') {
+    if (currency === 'GBP') {
+      return currencyConvertor.symbolGBP
+    } else if (currency === 'USD') {
       return currencyConvertor.symbolUSD
     } else if (currency === 'AUD') {
       return currencyConvertor.symbolAUD
-    } else if (currency === 'INRS') {
+    } else if (currency === 'INR') {
       return currencyConvertor.symbolINR
     } else return ''
 	}
@@ -190,7 +192,7 @@ export class IndianRupees extends Currency {
       return currencyConvertor.exchangeINRToUSD
     } else if (toCurrency === 'AUD') {
       return currencyConvertor.exchangeINRToAUD
-    } else if (toCurrency === 'INR') {
+    } else if (toCurrency === 'GBP') {
       return currencyConvertor.exchangeINRToGBP
     } else return -1
 	}
