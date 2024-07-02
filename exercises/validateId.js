@@ -40,8 +40,9 @@ export function validateId(id) {
 // If an error is thrown: catch it, log a useful message, then return `false`
 export function isIdValid(id, logger) {
   try {
-    const isValidID = validateId(id)
-    return true
+    // const isValidID = validateId(id)
+    // return true
+    return validateId(id)
   } catch (error) {
     //logger.error("ID is invalid")
     logger.error(`ID is invalid - ${error.message}`)
