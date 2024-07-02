@@ -15,7 +15,7 @@ export function validateId(id) {
   // The id should be an odd number of characters long:
   if (id.length % 2 === 0) {
     // TODO: throw an error on this condition
-    throw new Error('ID length should be an odd number')
+    throw new Error('ID length should have an odd number of charactors')
   }
 
   // The id should contain the letter 'a':
