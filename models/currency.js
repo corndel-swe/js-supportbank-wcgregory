@@ -1,39 +1,42 @@
 import * as currencyConvertor from './currencyExchange.js'
 
 export class Currency {
-  #amount
+  //#amount
 	#currency
-  #currencyCode
-	#currencySymbol
+  //#currencyCode
+	//#currencySymbol
   constructor (currency) {
 		this.#currency = String(currency).toUpperCase()
+    this.currencyCode = null
+    this.currencySymbol = null
+    this.amount = 0
 	}
 
 	totalAmount(amount) {
-    this.#amount = Number(amount) ? amount : 0
+    this.amount = Number(amount) ? amount : 0
 	}
 
   addToAmount(addition) {
-		this.#amount += Number(addition)
+		this.amount += Number(addition)
 	}
 
 	removeFromAmount(deduction) {
-		this.#amount -= Number(deduction)
+		this.amount -= Number(deduction)
 	}
 
   setCurrencyCode(code) {
     // ISO 4217 three-letter code
-		this.#currencyCode = code
+		this.currencyCode = code
 	}
 
-  getCurrencySymbol(toCurrency) {
-		if (toCurrency === 'USD') {
+  getCurrencySymbol(currency) {
+		if (currency === 'USD') {
       return currencyConvertor.symbolUSD
-    } else if (toCurrency === 'AUD') {
+    } else if (currency === 'AUD') {
       return currencyConvertor.symbolAUD
-    } else if (toCurrency === 'INR') {
+    } else if (currency === 'INRS') {
       return currencyConvertor.symbolINR
-    } else return -1
+    } else return ''
 	}
 
   #getExchangeRate(toCurrency) {
@@ -41,7 +44,8 @@ export class Currency {
 	}
 
   exchange(amount, newCurrency) {
-    let value = amount
+    // NOT IMPLEMENTED
+    /*let value = amount
     const rate = this.#getExchangeRate(newCurrency)
     const symbol = this.getCurrencySymbol(newCurrency)
     if (!rate || rate === -1) {
@@ -49,26 +53,25 @@ export class Currency {
       // return -1
     } else {
       value *= rate
-      console.log(`${this.#currencyCode} to ${newCurrency} - Exchange Rate: ${rate} - Amount: ${symbol}${value}`)
-    }
+      console.log(`${this.currencyCode} to ${newCurrency} - Exchange Rate: ${rate} - Amount: ${symbol}${value}`)
+    }*/
 	}
 
 	displayCurrency() {
-    let thisCurrency = this.#currencyCode
-		console.log(`This currency: ${thisCurrency} Amount: ${this.#amount}`)
-    console.log(`${this.#currencySymbol}${this.#amount}`)
+    this.currencySymbol = this.getCurrencySymbol(this.currencyCode)
+		console.log(`This currency: ${this.currencyCode} Amount: ${this.amount}`)
+    console.log(`${this.currencySymbol}${this.amount}`)
 	}
 
 }
 
 export class PoundSterling extends Currency {
   // #currencyCode
-  // currencySymbol
+  // #currencySymbol
   constructor() {
     super('PoundSterling')
     this.currencyCode = 'GBP'
     this.currencySymbol = currencyConvertor.symbolGBP
-    this.amount = 0
   }
 
   #getExchangeRate(toCurrency) {
@@ -83,30 +86,30 @@ export class PoundSterling extends Currency {
 
   exchange(amount, newCurrency) {
     let value = amount
-    const rate = this.#getExchangeRate(newCurrency)
     const symbol = this.getCurrencySymbol(newCurrency)
+    const rate = this.#getExchangeRate(newCurrency)
+    if (!symbol || symbol === -1) {
+      console.log("Unsupported or unknown currency symbol!")
+      symbol = ''
+    }
     if (!rate || rate === -1) {
       console.log("Unsupported exchange rate!")
-      // return -1
     } else {
       value *= rate
-      console.log(`${this.currencyCode} to ${newCurrency} - Exchange Rate: ${rate} - Amount: ${symbol}${value}`)
+      console.log(`${this.currencyCode} to ${newCurrency} - Exchange Rate: ${rate}`)
+      console.log(`Exchange Amount: ${symbol}${value}`)
     }
 	}
 
-  displayCurrency() {
-		console.log(`This currency: ${this.currencyCode} Amount: ${this.amount}`)
-    console.log(`${this.currencySymbol}${this.amount}`)
-	}
 }
 
 export class USDollars extends Currency {
-  #currencyCode
-  #currencySymbol
+  //#currencyCode
+  //#currencySymbol
   constructor() {
     super('USDollars')
-    this.#currencyCode = 'USD'
-    this.#currencySymbol = currencyConvertor.symbolUSD
+    this.currencyCode = 'USD'
+    this.currencySymbol = currencyConvertor.symbolUSD
   }
 
   #getExchangeRate(toCurrency) {
@@ -123,23 +126,26 @@ export class USDollars extends Currency {
     let value = amount
     const rate = this.#getExchangeRate(newCurrency)
     const symbol = this.getCurrencySymbol(newCurrency)
+    if (!symbol || symbol === -1) {
+      console.log("Unsupported or unknown currency symbol!")
+      symbol = ''
+    }
     if (!rate || rate === -1) {
       console.log("Unsupported exchange rate!")
       // return -1
     } else {
       value *= rate
-      console.log(`${this.#currencyCode} to ${newCurrency} - Exchange Rate: ${rate} - Amount: ${symbol}${value}`)
+      console.log(`${this.currencyCode} to ${newCurrency} - Exchange Rate: ${rate}`)
+      console.log(`Exchange Amount: ${symbol}${value}`)
     }
 	}
 }
 
 export class AUDollars extends Currency {
-  #currencyCode
-  #currencySymbol
   constructor() {
     super('AUDollars')
-    this.#currencyCode = 'AUD'
-    this.#currencySymbol = currencyConvertor.symbolAUD
+    this.currencyCode = 'AUD'
+    this.currencySymbol = currencyConvertor.symbolAUD
   }
 
   #getExchangeRate(toCurrency) {
@@ -156,23 +162,27 @@ export class AUDollars extends Currency {
     let value = amount
     const rate = this.#getExchangeRate(newCurrency)
     const symbol = this.getCurrencySymbol(newCurrency)
+    if (!symbol || symbol === -1) {
+      console.log("Unsupported or unknown currency symbol!")
+      symbol = ''
+    }
     if (!rate || rate === -1) {
       console.log("Unsupported exchange rate!")
       // return -1
     } else {
       value *= rate
-      console.log(`${this.#currencyCode} to ${newCurrency} - Exchange Rate: ${rate} - Amount: ${symbol}${value}`)
+      console.log(`${this.currencyCode} to ${newCurrency} - Exchange Rate: ${rate}`)
+      console.log(`Exchange Amount: ${symbol}${value}`)
     }
 	}
+  
 }
 
 export class IndianRupees extends Currency {
-  #currencyCode
-  #currencySymbol
   constructor() {
     super('PoundSterling')
-    this.#currencyCode = 'INR'
-    this.#currencySymbol = currencyConvertor.symbolINR
+    this.currencyCode = 'INR'
+    //this.currencySymbol = currencyConvertor.symbolINR
   }
 
   #getExchangeRate(toCurrency) {
@@ -189,19 +199,31 @@ export class IndianRupees extends Currency {
     let value = amount
     const rate = this.#getExchangeRate(newCurrency)
     const symbol = this.getCurrencySymbol(newCurrency)
+    if (!symbol || symbol === -1) {
+      console.log("Unsupported or unknown currency symbol!")
+      symbol = ''
+    }
     if (!rate || rate === -1) {
       console.log("Unsupported exchange rate!")
       // return -1
     } else {
       value *= rate
-      console.log(`${this.#currencyCode} to ${newCurrency} - Exchange Rate: ${rate} - Amount: ${symbol}${value}`)
+      console.log(`${this.currencyCode} to ${newCurrency} - Exchange Rate: ${rate}`)
+      console.log(`Exchange Amount: ${symbol}${value}`)
     }
 	}
+  
 }
 
+/*
 const myGBP = new PoundSterling()
 const myUSD = new USDollars()
+const myINR = new IndianRupees()
 
 myGBP.displayCurrency()
 myUSD.displayCurrency()
+myINR.displayCurrency()
 
+myGBP.exchange(100, 'USD')
+myINR.exchange(30000, 'USD')
+*/
