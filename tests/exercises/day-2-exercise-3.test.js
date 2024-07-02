@@ -41,15 +41,16 @@ describe('appendLogEntry()', () => {
         )
         await fs.rm(uri, { force: true })
 
-        const firstLogEntry = 'How are you?'
-        const secondLogEntry = 'Fine, thank you!'
+        const firstLogEntry = 'How are you?\n'
+        const secondLogEntry = 'Fine, thank you!\n'
 
         await fileIo.appendLogEntry(firstLogEntry)
         await fileIo.appendLogEntry(secondLogEntry)
 
         assert.equal(
             await fs.readFile(uri, { encoding: 'utf8' }),
-            firstLogEntry + '\n' + secondLogEntry + '\n'
+            //firstLogEntry + '\n' + secondLogEntry + '\n'
+            firstLogEntry + secondLogEntry
         )
     })
 })

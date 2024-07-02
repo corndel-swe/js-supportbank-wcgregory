@@ -70,7 +70,7 @@ Finally, we'll be looking at persisting data by reading and writing files.
 
 To run the tests for them, use `npm run test:d2e3`.
 
-- [ ] Have a look at
+- [x] Have a look at
       [Reading and Writing Files](https://tech-docs.corndel.com/js/reading-and-writing-files.html).
 
-- [ ] Complete the functions in [exercises/fileIO.js](/exercises/fileIO.js).
+- [x] Complete the functions in [exercises/fileIO.js](/exercises/fileIO.js).
