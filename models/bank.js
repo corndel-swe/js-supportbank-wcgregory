@@ -27,7 +27,7 @@ function getTransactionForAccount(data, account) {
 export class Account {
   constructor (name, balance) {
     this.name = name
-    this.balance = balance
+    this.balance = Number(balance) ? balance : 0
     this.transactions = []
   }
 
@@ -47,8 +47,9 @@ export class Bank {
     this.allTransactions = Array()
   }
 
-  createAccount(amount) {
-    this.balance += amount
+  createAccount(name) {
+    const account = new Account(name)
+    this.accounts.push(account)
   }
 
   addFundsToAccount(amount) {
