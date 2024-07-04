@@ -75,6 +75,22 @@ export class Bank {
     return (value / 100).toFixed(2)
   }
 
+  summariseTransactionObjs() {
+    for (let transaction of this.allTransactions) {
+      let fromName = transaction.FromAccount
+      let toName = transaction.ToAccount
+      let amount = this.currencyToIntegers(parseFloat(transaction.Amount))
+
+      if (fromName in this.transactionSummary) {
+        this.transactionSummary[fromName] -= amount
+      } else this.transactionSummary[fromName] = -amount
+
+      if (toName in this.transactionSummary) {
+        this.transactionSummary[toName] += amount
+      } else this.transactionSummary[toName] = amount
+    }
+  }
+
   summariseTransactions() {
     for (let transaction of this.allTransactions) {
       const transactionFields = transaction.split(',')
@@ -93,7 +109,10 @@ export class Bank {
   }
 
   displayTransactionSummary() {
-    this.summariseTransactions()
+    if (typeof this.allTransactions[0] === 'string') {
+      this.summariseTransactions()
+    } else this.summariseTransactionObjs();
+
     for (let account in this.transactionSummary) {
       this.transactionSummary[account] = this.integersToCurrency(this.transactionSummary[account])
     }
