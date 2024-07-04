@@ -1,13 +1,17 @@
 import { Command } from 'commander'
-import { readCSVFile } from '../models/filemanager.js'
+import { readCSVFile, readJSONFile } from '../models/filemanager.js'
 import { Bank } from '../models/bank.js'
 
 const data2014Path = new URL('../data/Transactions2014.csv', import.meta.url)
 const transactData2014 = await readCSVFile(data2014Path)
 const data2014Lines = transactData2014.split('\n')
 
-const BankRoll = new Bank('Roll')
-BankRoll.loadTransactionData(data2014Lines.slice(1))
+const data2013Path = new URL('../data/Transactions2013.json', import.meta.url)
+const transactData2013 = readJSONFile(data2013Path)
+console.log(transactData2013)
+
+const bankRoll = new Bank('Roll')
+bankRoll.loadTransactionData(data2014Lines.slice(1))
 
 const transactionController = new Command('transaction')
 
@@ -23,15 +27,14 @@ transactionController
   .command('summarise all')
   .description('Summarise all account transactions with outstanding balances')
   .action(() => {
-    BankRoll.summariseTransactions()
-    console.log(BankRoll.transactionSummary)
+    console.log(bankRoll.displayTransactionSummary())
   })
 
 transactionController
   .command('list <accountname>')
   .description('List all transactions by account name')
   .action((accountName) => {
-    console.log(BankRoll.accountTransactions(accountName)) 
+    console.log(bankRoll.accountTransactions(accountName)) 
   })
 
 export default transactionController

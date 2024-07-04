@@ -1,24 +1,3 @@
-
-
-function getAccounts(data) {
-  //TODO
-  const accounts = Array()
-  for (let line of data.slice(1)) {
-    //if (line.includes('Date,From,To,Narrative,Amount')) {
-    //  continue  // ignore header line
-    //}
-    let lineFields = line.split(',')
-    let from = lineFields[1]
-    let to = lineFields[2]
-  }
-}
-
-function getTransactionForAccount(data, account) {
-  //TODO
-  //for () {}
-}
-
-
 export class Account {
   static accountNumber = 1
 
@@ -88,21 +67,37 @@ export class Bank {
     }
   }
 
+  currencyToIntegers(value) {
+    return value * 100
+  }
+
+  integersToCurrency(value) {
+    return (value / 100).toFixed(2)
+  }
+
   summariseTransactions() {
     for (let transaction of this.allTransactions) {
       const transactionFields = transaction.split(',')
       let fromName = transactionFields[1]
       let toName = transactionFields[2]
-      let amount = parseFloat(transactionFields[4])
+      let amount = this.currencyToIntegers(parseFloat(transactionFields[4]))
 
-      if (!fromName in this.transactionSummary) {
-        this.transactionSummary[fromName] = -amount
-      } else this.transactionSummary[fromName] -= amount
+      if (fromName in this.transactionSummary) {
+        this.transactionSummary[fromName] -= amount
+      } else this.transactionSummary[fromName] = -amount
 
-      if (!toName in this.transactionSummary) {
-        this.transactionSummary[toName] = amount
-      } else this.transactionSummary[toName] += amount
+      if (toName in this.transactionSummary) {
+        this.transactionSummary[toName] += amount
+      } else this.transactionSummary[toName] = amount
     }
+  }
+
+  displayTransactionSummary() {
+    this.summariseTransactions()
+    for (let account in this.transactionSummary) {
+      this.transactionSummary[account] = this.integersToCurrency(this.transactionSummary[account])
+    }
+    return this.transactionSummary
   }
 
   accountTransactions(accountName) {
@@ -112,12 +107,6 @@ export class Bank {
       const transactionFields = transaction.split(',')
       let fromNameLowerCase = transactionFields[1].toLowerCase()
       let toNameLowerCase = transactionFields[2].toLowerCase()
-      //console.log(`${toNameLowerCase}, ${fromNameLowerCase}`)
-      // let date = transaction[0]
-      // let fromName = transaction[1]
-      // let toName = transaction[2]
-      // let description = transaction[3]
-      // let amount = parseFloat(transaction[4])
 
       if (
         accountNameLowerCase === fromNameLowerCase ||
