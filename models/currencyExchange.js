@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 export const symbolUSD = '$'
 export const symbolGBP = '£'
 export const symbolAUD = 'AU$'
@@ -15,3 +17,21 @@ export const exchangeGBPToINR = 105.80
 export const exchangeINRToGBP = 0.0095
 export const exchangeAUDToINR = 55.52
 export const exchangeINRToAUD = 0.018
+
+export async function getOpenExchangeRates(currency, newCurrency) {
+  /**
+   * Connect to Open Exchange Rate to retrieve the latest foreign exchange rates
+   * https://openexchangerates.org/api/latest.json?app_id=YOUR_APP_ID
+   * https://openexchangerates.org/api/latest.json?app_id=YOUR_APP_ID&base=GBP
+   * 
+   * @param currency - the base currency
+   * @param newCurrency - the currency to be converted into
+   * @returns openExchangeRates.rates[newCurrency] - returns the newCurrency object's value 
+   *          as a floating point to 6 decimal places.
+  */
+  const APIKEY = process.env.OPENEXCHANGERATES_API_KEY
+  const urlpath = `https://openexchangerates.org/api/latest.json?app_id=${APIKEY}&base=${currency}&symbols=${newCurrency}`
+  const response = await fetch(urlpath)
+  const openExchangeRates = await response.json()
+  return parseFloat(openExchangeRates.rates[newCurrency]).toFixed(6)
+}
