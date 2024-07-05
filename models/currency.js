@@ -117,7 +117,7 @@ export class AUDollars extends Currency {
   constructor() {
     super('AUDollars')
     this.currencyCode = 'AUD'
-    //this.currencySymbol = currencyConvertor.symbolAUD
+    this.currencySymbol = currencyConvertor.symbolAUD
   }
 
   #getExchangeRate(toCurrency) {
