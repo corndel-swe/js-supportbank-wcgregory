@@ -5,11 +5,15 @@ export class Currency {
 	#currency
   //#currencyCode
 	//#currencySymbol
+  #exchangeRates
+  #exchangeRateTimestamp
   constructor (currency) {
 		this.#currency = String(currency).toUpperCase()
     this.currencyCode = null
     this.currencySymbol = null
     this.amount = 0
+    this.#exchangeRates = null
+    this.#exchangeRateTimestamp = null
 	}
 
 	totalAmount(amount) {
@@ -41,8 +45,24 @@ export class Currency {
     } else return ''
 	}
 
+  isOlderThan24Hours(date) {
+    const day = (1 * 24 * 60 * 60 * 1000)
+    const oneDayAgo = Date.now() - day
+
+    return date > oneDayAgo
+  }
+
   async #getExchangeRate(toCurrencyCode) {
-		return await currencyConvertor.getOpenExchangeRates(this.currencyCode, toCurrencyCode)
+    if (
+        !this.#exchangeRates || 
+        !this.#exchangeRateTimestamp || 
+        isOlderThan24Hours(this.#exchangeRateTimestamp)
+    ) {
+      const openExchanegRates = await currencyConvertor.getOpenExchangeRates(this.currencyCode, toCurrencyCode)
+      this.#exchangeRateTimestamp = openExchanegRates.timestamp
+      this.#exchangeRates = openExchanegRates.rates
+    }
+    return parseFloat(this.#exchangeRates[toCurrencyCode]).toFixed(6)
 	}
 
   async exchange(amount, toCurrencyCode) {
