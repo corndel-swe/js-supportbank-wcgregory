@@ -6,7 +6,7 @@ export async function getPokemonList() {
 }
 
 export async function getFullPokemonList() {
-  const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=60&offset=60')
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=400&offset=120')
   const jsonOutput = await response.json()
   return jsonOutput.results.map(pokemonNames => pokemonNames.name)
 }

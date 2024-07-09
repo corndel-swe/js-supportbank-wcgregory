@@ -1,5 +1,5 @@
 import { Command } from 'commander'
-import { readCSVFile, readJSONFile } from '../models/filemanager.js'
+import { readCSVFile, readJSONFile, readXMLFile } from '../models/filemanager.js'
 import { Bank } from '../models/bank.js'
 
 
@@ -10,9 +10,15 @@ const data2014Lines = transactData2014.split('\n')
 const data2013Path = new URL('../data/Transactions2013.json', import.meta.url)
 const transactData2013 = await readJSONFile(data2013Path)
 
+const data2012Path = new URL('../data/Transactions2012.xml', import.meta.url)
+const xmlTransaction = await readXMLFile(data2012Path)
+console.log(xmlTransaction)
+
 const bankRoll = new Bank('Roll')
 //bankRoll.loadTransactionData(data2014Lines.slice(1))
 bankRoll.loadTransactionData(transactData2013)
+//bankRoll.loadTransactionData(xmlTransaction["TransactionList"]["SupportTransaction"])
+
 
 const transactionController = new Command('transaction')
 
