@@ -12,12 +12,18 @@ const transactData2013 = await readJSONFile(data2013Path)
 
 const data2012Path = new URL('../data/Transactions2012.xml', import.meta.url)
 const xmlTransaction = await readXMLFile(data2012Path)
-console.log(xmlTransaction)
+const transactData2012 = xmlTransaction.TransactionList.SupportTransaction
+//console.log(transactData2012)
+
+const data2015Path = new URL('../data/DodgyTransactions2015.csv', import.meta.url)
+const transactData2015 = await readCSVFile(data2015Path)
+const data2015Lines = transactData2015.split('\n')
 
 const bankRoll = new Bank('Roll')
 //bankRoll.loadTransactionData(data2014Lines.slice(1))
-bankRoll.loadTransactionData(transactData2013)
-//bankRoll.loadTransactionData(xmlTransaction["TransactionList"]["SupportTransaction"])
+//bankRoll.loadTransactionData(transactData2013)
+//bankRoll.loadTransactionObjData(transactData2012)
+bankRoll.loadTransactionData(data2015Lines.slice(1))
 
 
 const transactionController = new Command('transaction')

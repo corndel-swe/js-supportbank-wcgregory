@@ -67,6 +67,18 @@ export class Bank {
     }
   }
 
+  loadTransactionObjData(data) {
+    if (Array.isArray(data)) {
+      this.allTransactions = data.map(transaction => ({
+        "Date": transaction['$'].Date,
+        "FromAccount": transaction.Parties[0].From[0],
+        "ToAccount": transaction.Parties[0].To[0],
+        "Description": transaction.Description[0],
+        "Amount": transaction.Value[0],
+      }))
+    }
+  }
+
   currencyToIntegers(value) {
     return value * 100
   }
