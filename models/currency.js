@@ -122,7 +122,7 @@ export class PoundSterling extends Currency {
 
 export class USDollars extends Currency {
   /**
-   * OpenExchange base rate so can inherit the Currency methods
+   * OpenExchange base currency so can inherit the Currency methods
    */
   //#currencyCode
   //#currencySymbol

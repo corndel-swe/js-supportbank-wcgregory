@@ -37,6 +37,7 @@ export class Bank {
     this.accounts = Array()
     this.allTransactions = Array()
     this.transactionSummary = {}
+    this.transactionErrors = Array()
   }
 
   accountExists(name) {
@@ -105,11 +106,19 @@ export class Bank {
 
   summariseTransactions() {
     for (let transaction of this.allTransactions) {
+      if (!transaction) {
+        continue
+      }
       const transactionFields = transaction.split(',')
+      let transactionDate = transactionFields[0]
       let fromName = transactionFields[1]
       let toName = transactionFields[2]
       let amount = this.currencyToIntegers(parseFloat(transactionFields[4]))
 
+      if (!transactionDate || !fromName || !toName || !amount) {
+        this.transactionErrors.push(transaction)
+        continue
+      }
       if (fromName in this.transactionSummary) {
         this.transactionSummary[fromName] -= amount
       } else this.transactionSummary[fromName] = -amount
@@ -135,7 +144,9 @@ export class Bank {
     const accountSummary = Array()
     const accountNameLowerCase = accountName.toLowerCase()
     for (let transaction of this.allTransactions) {
-      if (typeof transaction === 'string') {
+      if (!transaction) {
+        continue
+      } else if (typeof transaction === 'string') {
         const transactionFields = transaction.split(',')
         if (
           accountNameLowerCase === transactionFields[1].toLowerCase() ||
@@ -148,7 +159,7 @@ export class Bank {
           accountNameLowerCase === transaction.FromAccount.toLowerCase() ||
           accountNameLowerCase === transaction.ToAccount.toLowerCase()
         ) {
-          // translate the object to lines format of a csv style file
+          // translate the object to csv style lines format
           const transactionDate = new Date(Date.parse(transaction.Date))
           let day = transactionDate.getDate(); if (day < 10) day = `0${day}`;
           let month = transactionDate.getMonth(); if (month < 10) month = `0${month}`;
