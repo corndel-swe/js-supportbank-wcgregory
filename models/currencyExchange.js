@@ -27,7 +27,7 @@ export async function getOpenExchangeRates(baseCurrency) {
    * 
    * @param currency - the base currency
    * @param newCurrency - the currency to be converted into
-   * @returns openExchangeRates - returns the open exchange rates API response.
+   * @returns {openExchangeRates} - returns the open exchange rates API response.
   */
   const APIKEY = process.env.OPENEXCHANGERATES_API_KEY
   const urlpath = `https://openexchangerates.org/api/latest.json?app_id=${APIKEY}&base=${baseCurrency}`

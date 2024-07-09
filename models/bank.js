@@ -135,15 +135,28 @@ export class Bank {
     const accountSummary = Array()
     const accountNameLowerCase = accountName.toLowerCase()
     for (let transaction of this.allTransactions) {
-      const transactionFields = transaction.split(',')
-      let fromNameLowerCase = transactionFields[1].toLowerCase()
-      let toNameLowerCase = transactionFields[2].toLowerCase()
-
-      if (
-        accountNameLowerCase === fromNameLowerCase ||
-        accountNameLowerCase === toNameLowerCase
-      ) {
-        accountSummary.push(transaction)
+      if (typeof transaction === 'string') {
+        const transactionFields = transaction.split(',')
+        if (
+          accountNameLowerCase === transactionFields[1].toLowerCase() ||
+          accountNameLowerCase === transactionFields[2].toLowerCase()
+        ) {
+          accountSummary.push(transaction)
+        }
+      } else {
+        if (
+          accountNameLowerCase === transaction.FromAccount.toLowerCase() ||
+          accountNameLowerCase === transaction.ToAccount.toLowerCase()
+        ) {
+          // translate the object to lines format of a csv style file
+          const transactionDate = new Date(Date.parse(transaction.Date))
+          let day = transactionDate.getDate(); if (day < 10) day = `0${day}`;
+          let month = transactionDate.getMonth(); if (month < 10) month = `0${month}`;
+          let year = transactionDate.getFullYear()
+          const dateFromToLine = `${day}/${month}/${year},${transaction.FromAccount},${transaction.ToAccount},`
+          const descriptionAmountLine = `${transaction.Narrative},${transaction.Amount}`
+          accountSummary.push((dateFromToLine + descriptionAmountLine))
+        }
       }
     }
     return accountSummary
