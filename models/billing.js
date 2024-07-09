@@ -1,7 +1,7 @@
 export class Bill {
   #total
   #currency
-	#currencySymbol
+  #currencySymbol
   constructor (amount, currency) {
 		this.#total = Number(amount) ? amount : 0
 		this.#currency = String(currency).toUpperCase()
@@ -31,6 +31,8 @@ export class Bill {
 	printBill() {
     // print current bill including timestamp
 		const transactionTime = new Date()
+		const printout = `${transactionTime.toDateString()} - Total Bill ${this.#currencySymbol}${this.#total}`
 		console.log(`${transactionTime.toDateString()} - Total Bill ${this.#currencySymbol}${this.#total}`)
+		return printout
 	}
 }
