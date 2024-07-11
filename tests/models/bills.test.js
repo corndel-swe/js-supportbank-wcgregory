@@ -3,40 +3,20 @@ import { strict as assert } from 'assert'
 import { Bill } from '../../models/billing.js'
 
 describe('Bills', () => {
-  it('should be built using a call', () => {
+  it('should be built using the class Bill', () => {
+    const taxiBill = new Bill(100, 'GBP')
     assert(
-      Bill.prototype instanceof Object,
-      'Bill is not a subclass of Object'
+      taxiBill instanceof Bill,
+      'Class Bill is not used'
     )
   })
-  it('should contain a private property called total', () => {
-    const taxiBill = new Bill(100, 'GBP')
-    const printTaxiBill = taxiBill.printBill()
-    const search = ['Total', 'Bill', '£', 100]
-    search.every(searchFor => printTaxiBill.includes(searchFor))
+  it('should contain a getter method getTotal()', () => {
+    const pubBill = new Bill(100, 'GBP')
+    assert.strictEqual(pubBill.getTotal(), 100)
   })
-  //#total
-  //#currency
-  //#currencySymbol
-  //constructor (amount, currency)
-
-  xit('should have a package.json file in the root', () => {
-    const packageJsonPath = './package.json'
-    const packageJsonExists = existsSync(packageJsonPath)
-    assert.ok(packageJsonExists, 'package.json file not found')
+  it('should contain a getter method getCurrency()', () => {
+    const shoppingBill = new Bill(250, 'USD')
+    assert.strictEqual(shoppingBill.getCurrency(), 'USD')
   })
 
-  xit('should have mocha installed as a dev dependency', () => {
-    const config = JSON.parse(readFileSync('./package.json'))
-    assert.ok('mocha' in config.devDependencies)
-  })
-
-  xit('should have a .gitignore in the root', () => {
-    assert.ok(existsSync('.gitignore'), '.gitignore file not found')
-  })
-
-  xit('should have node_modules in the .gitignore', () => {
-    const gitignore = readFileSync('.gitignore', 'utf-8')
-    assert.ok(gitignore.includes('node_modules'))
-  })
 })

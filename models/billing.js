@@ -7,7 +7,19 @@ export class Bill {
 		this.#currency = String(currency).toUpperCase()
 		if (this.#currency === 'GBP' || this.#currency === 'POUNDS' || this.#currency === '£') {
 			this.#currencySymbol = '£'
-		}
+		} else '';
+	}
+
+	getTotal() {
+		return this.#total
+	}
+
+	getCurrency() {
+		return this.#currency
+	}
+
+	getCurrencySymbol() {
+		return this.#currencySymbol
 	}
 
 	addToAmount(addition) {
@@ -32,7 +44,8 @@ export class Bill {
     // print current bill including timestamp
 		const transactionTime = new Date()
 		const printout = `${transactionTime.toDateString()} - Total Bill ${this.#currencySymbol}${this.#total}`
-		console.log(`${transactionTime.toDateString()} - Total Bill ${this.#currencySymbol}${this.#total}`)
+		//console.log(`${transactionTime.toDateString()} - Total Bill ${this.#currencySymbol}${this.#total}`)
+		console.log(printout)
 		return printout
 	}
 }
